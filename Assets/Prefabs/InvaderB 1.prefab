@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 5119134926921609055}
   - component: {fileID: -1242166877107924842}
   m_Layer: 8
-  m_Name: InvaderB
-  m_TagString: Destructivel
+  m_Name: InvaderB 1
+  m_TagString: Imortal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b576d808b7437f34d8e351ab719c61e0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.68838257, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -143,4 +143,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fire: {fileID: 6191482904167719279, guid: 00c92aece06764b409dd5178ce29b753, type: 3}
   cadencia: 1.5
-  vidasImortal: 1

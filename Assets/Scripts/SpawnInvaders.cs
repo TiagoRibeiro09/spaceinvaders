@@ -5,13 +5,10 @@ using UnityEngine;
 public class SpawnInvaders : MonoBehaviour
 {
     [SerializeField]
-    GameObject InvaderA;
+    GameObject[] invasores;
 
     [SerializeField]
-    GameObject InvaderB;
-
-    [SerializeField]
-    GameObject InvaderC;
+    GameObject[] InvasoresImortais;
 
     [SerializeField]
     int nInvasores = 7;
@@ -19,38 +16,112 @@ public class SpawnInvaders : MonoBehaviour
     [SerializeField]
     float xMin = -3f;
 
+    [SerializeField]
+    float yMin = -0.5f;
+
+    [SerializeField]
+    float xInc = 1f;
+
+    [SerializeField]
+    float yInc = 0.5f;
+
+    [SerializeField]
+    float probabilidadeDeImortal = 0.15f;
+
+    float InicioMove = 2f;
+
+    [SerializeField]
+    float velocidade = 0.5f;
+
+    float tempo = 0f;
+
+    float minX, maxX;
+
+    [SerializeField]
+    float movLat = 3f;
+
+    bool mov = false;
+
 
     // Start is called before the first frame update
     void Awake()
     {
-        float x = xMin;
-        for (int I = 1; I <= nInvasores; I++)
-        {
-            GameObject newInvader = Instantiate(InvaderA, transform);
-            newInvader.transform.position = new Vector3(x, -0.5f, 0f);
-            x += 1f;
-        }
-        float x2 = xMin;
-        for (int I = 1; I <= nInvasores; I++)
-        {
-            GameObject newInvader = Instantiate(InvaderB, transform);
-            newInvader.transform.position = new Vector3(x2, 0.5f, 0f);
-            x2 += 1f;
-        }
-        float x3 = xMin;
-        for (int I = 1; I <= nInvasores; I++)
-        {
-            GameObject newInvader = Instantiate(InvaderC, transform);
-            newInvader.transform.position = new Vector3(x3, 1.5f, 0f);
-            x3 += 1f;
-        }
+        float y = yMin;
 
+        for (int line = 0; line < invasores.Length; line++)
+        {
+           
+            float x  = xMin;
+
+            for (int I = 1; I <= nInvasores; I++)
+            {
+                if(Random.value < probabilidadeDeImortal)
+                {
+                    GameObject newInvader = Instantiate(InvasoresImortais[line], transform);
+                    newInvader.transform.position = new Vector3(x, y, 0f);
+                }
+                else
+                {
+                    GameObject newInvader = Instantiate(invasores[line], transform);
+                    newInvader.transform.position = new Vector3(x, y, 0f);
+                }
+                x += xInc;
+            }
+            y += yInc;
+        }
+ 
 
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        minX = Camera.main.ViewportToWorldPoint(Vector2.zero).x + movLat;
+        maxX = Camera.main.ViewportToWorldPoint(Vector2.one).x - movLat;
+    }
+
     void Update()
     {
+
+        tempo += Time.deltaTime;
+
+        Vector3 position = transform.position;
+        position.x = Mathf.Clamp(position.x, minX, maxX);
+        transform.position = position;
+
+
+
+        {
+            if (mov == true)
+            {
+                transform.position += velocidade * Vector3.right;
+                transform.position += velocidade * Vector3.down;
+                if (position.x == maxX)
+                {
+                   
+                    mov = false;
+                }
+
+            }
+
+            if (mov == false)
+            {
+                transform.position -= velocidade * Vector3.right;
+                transform.position -= velocidade * Vector3.down;
+                if (position.x == minX)
+                {
+                    
+                    mov = true;
+                }
+                
+                
+
+            }
+
+        }
+
         
+
     }
+
+
 }
